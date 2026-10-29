@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText etEmail, etPassword;
     private RadioGroup rgRole;
+    private RadioButton rbStudent, rbAdmin;
     private Button btnRegister;
     private FirebaseAuth auth;
     private FirebaseFirestore db;
@@ -33,6 +35,8 @@ public class RegisterActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         rgRole = findViewById(R.id.rgRole);
+        rbStudent = findViewById(R.id.rbStudent);
+        rbAdmin = findViewById(R.id.rbAdmin);
         btnRegister = findViewById(R.id.btnRegister);
 
         auth = FirebaseAuth.getInstance();
@@ -47,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Enter email and password", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String role = "student";
+                String role = rbStudent.isChecked() ? "student" : "admin";
                 btnRegister.setEnabled(false);
                 auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(task -> {

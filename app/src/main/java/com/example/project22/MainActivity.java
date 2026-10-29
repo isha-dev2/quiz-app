@@ -19,6 +19,16 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         
+        // Set up the start quiz button
+        Button btnStartQuiz = findViewById(R.id.btnStartQuiz);
+        btnStartQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start the StudentSelectActivity
+                startActivity(new Intent(MainActivity.this, StudentSelectActivity.class));
+            }
+        });
+
         // Set up the leaderboard button
         Button btnLeaderboard = findViewById(R.id.btnLeaderboard);
         btnLeaderboard.setOnClickListener(new View.OnClickListener() {
