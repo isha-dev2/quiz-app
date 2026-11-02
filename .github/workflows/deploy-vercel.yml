@@ -7,13 +7,12 @@ on:
       - main
     paths:
       - 'admin-web/**'
-      - '.github/workflows/deploy-vercelerror.yml'
+      - '.github/workflows/deploy-vercel.yml'
   workflow_dispatch:
 
 jobs:
   deploy-to-vercel:
-    name: Build & Deploy to Vercel
-    runs-on: ubuntu-latest
+    name: Build & Deploy to Vercelruns-on: ubuntu-latest
 
     steps:
       - name: Checkout code
