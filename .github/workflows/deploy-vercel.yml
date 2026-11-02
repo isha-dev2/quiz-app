@@ -7,7 +7,7 @@ on:
       - main
     paths:
       - 'admin-web/**'
-      - '.github/workflows/deploy-vercel.yml'
+      - '.github/workflows/deploy-vercelerror.yml'
   workflow_dispatch:
 
 jobs:
@@ -33,3 +33,5 @@ jobs:
         env:
           VERCEL_ORG_ID: team_WuFioaYp4uYJTGTolfmlYnor
           VERCEL_PROJECT_ID: prj_GJvoS7FJJAxD5HA93ai2sLWl55TA
+
+
