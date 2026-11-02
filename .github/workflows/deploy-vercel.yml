@@ -1,24 +1,35 @@
+
 name: Autonomous Vercel Deployment
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'admin-web/**'
+      - '.github/workflows/deploy-vercel.yml'
   workflow_dispatch:
 
 jobs:
   deploy-to-vercel:
     name: Build & Deploy to Vercel
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy to Vercel Production
-        uses: amondnet/vercel-action@v25
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: team_WuFioaYp4uYJTGTolfmlYnor
-          vercel-project-id: prj_GJvoS7FJJAxD5HA93ai2sLWl55TA
-          working-directory: ./admin-web
-          vercel-args: '--prod'
+          node-version: 22
+
+      - name: Install latest Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Deploy to Vercel Production
+        working-directory: admin-web
+        run: vercel --prod --yes --token="${{ secrets.VERCEL_TOKEN }}"
+        env:
+          VERCEL_ORG_ID: team_WuFioaYp4uYJTGTolfmlYnor
+          VERCEL_PROJECT_ID: prj_GJvoS7FJJAxD5HA93ai2sLWl55TA
