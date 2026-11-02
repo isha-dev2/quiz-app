@@ -5,8 +5,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,8 +19,6 @@ import java.util.Map;
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText etEmail, etPassword;
-    private RadioGroup rgRole;
-    private RadioButton rbStudent, rbAdmin;
     private Button btnRegister;
     private FirebaseAuth auth;
     private FirebaseFirestore db;
@@ -34,9 +30,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
-        rgRole = findViewById(R.id.rgRole);
-        rbStudent = findViewById(R.id.rbStudent);
-        rbAdmin = findViewById(R.id.rbAdmin);
         btnRegister = findViewById(R.id.btnRegister);
 
         auth = FirebaseAuth.getInstance();
@@ -51,7 +44,6 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Enter email and password", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String role = rbStudent.isChecked() ? "student" : "admin";
                 btnRegister.setEnabled(false);
                 auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(task -> {
@@ -63,15 +55,15 @@ public class RegisterActivity extends AppCompatActivity {
                                     return;
                                 }
                                 Map<String, Object> data = new HashMap<>();
-                                data.put("role", role);
+                                data.put("role", "student");
                                 data.put("score", 0);  // Initialize score to 0 for new users
                                 data.put("email", email);  // Store email for display
                                 db.collection("roles").document(user.getUid()).set(data)
                                         .addOnSuccessListener(unused -> {
-                                            Toast.makeText(RegisterActivity.this, "Registered as " + role, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(RegisterActivity.this, "Registered successfully", Toast.LENGTH_SHORT).show();
                                             finish();
                                         })
-                                        .addOnFailureListener(e -> Toast.makeText(RegisterActivity.this, "Failed to save role", Toast.LENGTH_SHORT).show());
+                                        .addOnFailureListener(e -> Toast.makeText(RegisterActivity.this, "Failed to save user profile", Toast.LENGTH_SHORT).show());
                             } else {
                                 Toast.makeText(RegisterActivity.this, String.valueOf(task.getException() != null ? task.getException().getMessage() : "Registration failed"), Toast.LENGTH_LONG).show();
                             }
